@@ -1,0 +1,18 @@
+{
+  "name": "pxxl-xray-ws-tls",
+  "private": true,
+  "version": "1.0.0",
+  "description": "VLESS+WS+TLS node on Pxxl Free (Node wrapper; downloads xray-core at build time)",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "postinstall": "node setup.js",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
