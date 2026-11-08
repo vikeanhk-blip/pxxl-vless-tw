@@ -3,6 +3,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { spawn } = require("child_process");
 const WebSocket = require("ws");
 
@@ -113,21 +114,21 @@ writeConfigAndStart();
 function writeConfigAndStart() {
   const randomPort = Math.floor(Math.random() * 45000) + 10000;
   config.inbounds[0].port = randomPort;
-  fs.writeFileSync(
-    path.join(__dirname, "config.json"),
-    JSON.stringify(config)
-  );
+  // Pxxl runs the app directory read-only, so write the generated
+  // config to the writable temp directory instead of __dirname.
+  const configPath = path.join(os.tmpdir(), "config.json");
+  fs.writeFileSync(configPath, JSON.stringify(config));
   console.log(`xray config written (port ${randomPort})`);
-  startXray();
+  startXray(configPath);
 }
 
-function startXray() {
+function startXray(configPath) {
   const binary = path.join(__dirname, "xray");
   if (!fs.existsSync(binary)) {
     console.error("xray binary missing; postinstall did not run");
     process.exit(1);
   }
-  const child = spawn(binary, ["-c", "./config.json"], {
+  const child = spawn(binary, ["-c", configPath], {
     stdio: ["pipe", "inherit", "inherit"],
   });
   app.xray = child;
