@@ -5,7 +5,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const XRAY_VERSION = "v25.10.11";
+const XRAY_VERSION = "v26.10.31";
 const ASSETS = {
   "linux-x64": "Xray-linux-64.zip",
   "linux-arm64": "Xray-linux-arm64-v8a.zip",
